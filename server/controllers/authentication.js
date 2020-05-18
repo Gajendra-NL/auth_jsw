@@ -43,3 +43,10 @@ exports.signup = function(req, res, next) {
     });
   });
 }
+
+exports.signin = function(req, res, next) {
+  // user is already verified for user name and password using local  strategy
+  // just need to return jwt token
+  const user = req.user; // passport attaches returned obj from localLogin middleware to req
+  res.send({ token: tokenForUser(user )});
+}

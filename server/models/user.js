@@ -25,9 +25,18 @@ userSchema.pre('save', function(next) {
             // over write password with encrypted password and save 
             user.password = hash;
             next();
-        })
-    })
-})
+        });
+    });
+});
+
+//
+userSchema.methods.comparePassword = function(candidatePassword, callaback) {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        if (err) { return callaback(err); }
+
+        callaback(null, isMatch);
+    });
+}
 
 // create the model class
 const ModelClass = mongoose.model('user', userSchema);
